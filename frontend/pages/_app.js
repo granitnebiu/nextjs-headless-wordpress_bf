@@ -1,5 +1,6 @@
-import { ApolloProvider } from "@apollo/client";
 import "../styles/index.scss";
+import { ApolloProvider } from "@apollo/client";
+import client from "../src/apollo/client";
 
 function MyApp({ Component, pageProps }) {
   return (
