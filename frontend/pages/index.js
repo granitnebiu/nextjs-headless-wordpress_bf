@@ -23,7 +23,6 @@ export async function getStaticProps(context) {
         header: data?.header || [],
         menus: {
           // we can pass both of them as one
-
           headerMenus: data?.headerMenu?.edges || [],
           footerMenus: data?.footerMenu?.edges || [],
         },
