@@ -1,6 +1,7 @@
 import React from "react";
 import { isEmpty, isArray } from "lodash";
 import Link from "next/link";
+import { getIconComponentByName } from "src/utils/icons-map";
 // import { sanitize } from "../../src/utils/miscellaneous";
 
 export default function Footer({ footer, footerMenus }) {
@@ -30,6 +31,24 @@ export default function Footer({ footer, footerMenus }) {
               ))}
             </ul>
           ) : null}
+        </div>
+
+        {/* Coyright Text  */}
+        <div className="mb-8 mt-8 flex w-full flex-wrap">
+          <div className="w-full md:w-1/2 lg:w-1/4 ">
+            {footer?.copyrightText ? footer.copyrightText : "Granit Nebiu"}
+          </div>
+          <div className="flex w-full justify-end lg:w-3/4">
+            {!isEmpty(footer?.socialLinks) && isArray(footer?.socialLinks) ? (
+              <ul className="flex items-center justify-center space-x-4">
+                {footer.socialLinks.map((socialLink) => (
+                  <li key={socialLink?.iconName}>
+                    <a href={socialLink?.iconUrl}>{getIconComponentByName(socialLink?.iconName)}</a>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
         </div>
       </div>
     </footer>
