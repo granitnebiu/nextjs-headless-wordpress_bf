@@ -2,13 +2,13 @@ import React from "react";
 import Nav from "./Nav";
 import { isEmpty } from "lodash";
 
-export default function Header({ headerMenus }) {
+export default function Header({ headerMenus, header }) {
   if (isEmpty(headerMenus)) {
     return null;
   }
   return (
     <header>
-      <Nav headerMenus={headerMenus} />
+      <Nav header={header} headerMenus={headerMenus} />
     </header>
   );
 }

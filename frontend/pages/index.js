@@ -4,7 +4,7 @@ import { GET_MENUS } from "../src/queries/get-menus";
 
 export default function Home({ data }) {
   //checking if they are comming correct
-  console.log("menus", data);
+  console.log("Fontend clog data", data);
   return <Layout data={data}>content</Layout>;
 }
 
@@ -16,16 +16,20 @@ export async function getStaticProps(context) {
     query: GET_MENUS,
   });
 
-  // console.warn("data", data);
+  // console.warn("backend clg data", data);
   return {
     props: {
       data: {
+        header: data?.header || [],
         menus: {
           // we can pass both of them as one
-          headerMenus: data?.headerMenu?.edges,
-          footerMenus: data?.footerMenu?.edges,
+
+          headerMenus: data?.headerMenu?.edges || [],
+          footerMenus: data?.footerMenu?.edges || [],
         },
+        footer: data?.footer || [],
       },
-    }, // will be passed to the page component as props
+    },
+    revalidate: 1, // will be passed to the page component as props
   };
 }
