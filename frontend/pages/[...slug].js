@@ -4,9 +4,10 @@ import { GET_PAGES_URI } from "src/queries/pages/get-pages";
 import { GET_PAGE } from "src/queries/pages/get-page";
 import { useRouter } from "next/router";
 import Layout from "../components/layout/Layout";
+import { isCustomPageUri } from "src/utils/slugs";
 // import { sanitize } from "../src/utils/miscellaneous";
 
-export default function Pages({ data }) {
+export default function Page({ data }) {
   const router = useRouter();
 
   // If the page is not yet generated, this will be displayed
@@ -15,11 +16,7 @@ export default function Pages({ data }) {
     return <div>Loading...</div>;
   }
   console.log("data", data);
-  return (
-    <Layout data={data}>
-      <div dangerouslySetInnerHTML={{ __html: data?.page?.content ?? {} }} />
-    </Layout>
-  );
+  return <Layout data={data}>{router?.query?.slug.join("/")}</Layout>;
 }
 
 export async function getStaticProps({ params }) {
@@ -73,7 +70,7 @@ export async function getStaticPaths() {
 
   data?.pages?.nodes &&
     data?.pages?.nodes.map((page) => {
-      if (!isEmpty(page?.uri)) {
+      if (!isEmpty(page?.uri) && !isCustomPageUri(page?.uri)) {
         const slugs = page?.uri?.split("/").filter((pageSlug) => pageSlug);
         console.log(slugs);
         pathsData.push({ params: { slug: slugs } });

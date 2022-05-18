@@ -40,12 +40,9 @@ export default function Nav({ headerMenus, header }) {
         {headerMenus?.length ? (
           <div className="text-sm lg:flex-grow">
             {headerMenus.map((menu) => (
-              <Link key={menu.node.id} href={menu.node.path}>
-                <a
-                  href="#responsive-header"
-                  className="mt-4 mr-4 block text-teal-100 hover:text-white lg:mt-0 lg:inline-block"
-                >
-                  {menu.node.label}
+              <Link key={menu?.node?.id} href={menu?.node?.path}>
+                <a className="mt-4 mr-4 block text-teal-100 hover:text-white lg:mt-0 lg:inline-block">
+                  {menu?.node?.label}
                 </a>
               </Link>
             ))}

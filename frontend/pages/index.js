@@ -27,6 +27,7 @@ export async function getStaticProps(context) {
           footerMenus: data?.footerMenu?.edges || [],
         },
         footer: data?.footer || [],
+        page: data?.page || [],
       },
     },
     revalidate: 1, // will be passed to the page component as props
