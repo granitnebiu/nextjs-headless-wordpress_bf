@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import { PAGE_COUNT } from "src/utils/slugs";
 
 /**
  * Get pages.
@@ -6,7 +7,7 @@ import { gql } from "@apollo/client";
  */
 export const GET_PAGES_URI = gql`
   query GET_PAGES_URI {
-    pages: pages(last: 1) {
+    pages: pages(first: ${PAGE_COUNT}) {
       nodes {
         id
         uri

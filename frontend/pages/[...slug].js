@@ -4,7 +4,7 @@ import { GET_PAGES_URI } from "src/queries/pages/get-pages";
 import { GET_PAGE } from "src/queries/pages/get-page";
 import { useRouter } from "next/router";
 import Layout from "../components/layout/Layout";
-import { isCustomPageUri } from "../src/utils/slugs";
+import { FALLBACK, handleRedirectsAndReturnData, isCustomPageUri } from "../src/utils/slugs";
 // import { sanitize } from "../src/utils/miscellaneous";
 
 export default function Page({ data }) {
@@ -20,28 +20,20 @@ export default function Page({ data }) {
 }
 
 export async function getStaticProps({ params }) {
-  const { data } = await client.query({
+  const { data, errors } = await client.query({
     query: GET_PAGE,
     variables: {
       uri: params?.slug.join("/"),
     },
   });
 
-  return {
+  const defaultProps = {
     props: {
-      data: {
-        header: data?.header || [],
-        menus: {
-          headerMenus: data?.headerMenu?.edges || [],
-          footerMenus: data?.footerMenu?.edges || [],
-        },
-        footer: data?.footer || [],
-        page: data?.page ?? {},
-        path: params?.slug.join("/"),
-      },
+      data: data || {},
     },
     revalidate: 1,
   };
+  return handleRedirectsAndReturnData(defaultProps, data, errors, "page");
 }
 
 /**
@@ -67,17 +59,17 @@ export async function getStaticPaths() {
   });
 
   const pathsData = [];
-  console.log("kushtrim ", data?.pages?.nodes);
+  // console.log(data?.pages?.nodes);
   data?.pages?.nodes &&
     data?.pages?.nodes.map((page) => {
       if (!isEmpty(page?.uri) && !isCustomPageUri(page?.uri)) {
         const slugs = page?.uri?.split("/").filter((pageSlug) => pageSlug);
-        console.log("this is the ", slugs);
+        // console.log("this is the ", slugs);
         pathsData.push({ params: { slug: slugs } });
       }
     });
   return {
     paths: pathsData,
-    fallback: true, // false or 'blocking'
+    fallback: FALLBACK, // false or 'blocking'
   };
 }

@@ -1,4 +1,5 @@
 import { GET_PAGE } from "src/queries/pages/get-page";
+import { handleRedirectsAndReturnData } from "src/utils/slugs";
 import Layout from "../components/layout/Layout";
 import client from "../src/apollo/client";
 
@@ -16,9 +17,9 @@ export default function Home({ data }) {
 
 //nextjs getStatic props
 //getting query for menu
-export async function getStaticProps(context) {
+export async function getStaticProps() {
   //client.query it is form apollo
-  const { data, loading, networkStatus } = await client.query({
+  const { data, errors } = await client.query({
     query: GET_PAGE,
     variables: {
       uri: "/",
@@ -26,18 +27,12 @@ export async function getStaticProps(context) {
   });
 
   // console.warn("backend clg data", data);
-  return {
+  const defaultProps = {
     props: {
-      data: {
-        header: data?.header || [],
-        menus: {
-          headerMenus: data?.headerMenu?.edges || [],
-          footerMenus: data?.footerMenu?.edges || [],
-        },
-        footer: data?.footer || [],
-        page: data?.page || [],
-      },
+      data: data || {},
     },
     revalidate: 1, // will be passed to the page component as props
   };
+
+  return handleRedirectsAndReturnData(defaultProps, data, errors, "page");
 }
