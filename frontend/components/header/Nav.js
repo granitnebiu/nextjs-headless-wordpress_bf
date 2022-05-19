@@ -14,7 +14,11 @@ export default function Nav({ headerMenus, header }) {
     <nav className="flex flex-wrap items-center justify-between bg-teal-500 p-6">
       <div className="flex-no-shrink mr-6 flex items-center text-white">
         <div className="mr-4">
-          <Image src={header?.siteLogoUrl} alt="logo" width={48} height={48} />
+          <Link href="/">
+            <a>
+              <img src={header?.siteLogoUrl} alt="" width="48" height="48" className="mr-4" />
+            </a>
+          </Link>
         </div>
         <div className="flex flex-col items-start justify-start">
           <span className="text-xl font-semibold tracking-tight">{header.siteTitle}</span>
@@ -23,6 +27,7 @@ export default function Nav({ headerMenus, header }) {
       </div>
       <div className="block lg:hidden">
         <button
+          data-cy="mmenu-btn"
           onClick={() => setMenuVisible(!menuVisible)}
           className="flex items-center rounded border border-teal-200 px-3 py-2 text-teal-200 hover:border-white hover:text-white"
         >
@@ -40,8 +45,11 @@ export default function Nav({ headerMenus, header }) {
         {headerMenus?.length ? (
           <div className="text-sm lg:flex-grow">
             {headerMenus.map((menu) => (
-              <Link key={menu?.node?.id} href={menu?.node?.path}>
-                <a className="mt-4 mr-4 block text-teal-100 hover:text-white lg:mt-0 lg:inline-block">
+              <Link key={menu?.node.id} href={menu?.node?.path}>
+                <a
+                  className="mt-4 mr-4 block text-teal-100 hover:text-white lg:mt-0 lg:inline-block"
+                  data-cy="nav-item"
+                >
                   {menu?.node?.label}
                 </a>
               </Link>

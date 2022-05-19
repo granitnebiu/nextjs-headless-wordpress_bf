@@ -41,6 +41,7 @@ footer: getFooter {
 export const GET_MENUS = gql`
   query menuItems_Parent_Children {
   ${HeaderFooter}
+ 
   }
   ${MenuFragment}
 `;

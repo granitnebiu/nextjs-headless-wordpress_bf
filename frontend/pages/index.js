@@ -1,11 +1,17 @@
+import { GET_PAGE } from "src/queries/pages/get-page";
 import Layout from "../components/layout/Layout";
 import client from "../src/apollo/client";
-import { GET_MENUS } from "../src/queries/get-menus";
 
 export default function Home({ data }) {
   //checking if they are comming correct
   console.log("Fontend clog data", data);
-  return <Layout data={data}>content</Layout>;
+  return (
+    <Layout data={data}>
+      {data?.page?.content ? (
+        <div dangerouslySetInnerHTML={{ __html: data?.page?.content ?? {} }} />
+      ) : null}
+    </Layout>
+  );
 }
 
 //nextjs getStatic props
@@ -13,7 +19,10 @@ export default function Home({ data }) {
 export async function getStaticProps(context) {
   //client.query it is form apollo
   const { data, loading, networkStatus } = await client.query({
-    query: GET_MENUS,
+    query: GET_PAGE,
+    variables: {
+      uri: "/",
+    },
   });
 
   // console.warn("backend clg data", data);
@@ -22,7 +31,6 @@ export async function getStaticProps(context) {
       data: {
         header: data?.header || [],
         menus: {
-          // we can pass both of them as one
           headerMenus: data?.headerMenu?.edges || [],
           footerMenus: data?.footerMenu?.edges || [],
         },

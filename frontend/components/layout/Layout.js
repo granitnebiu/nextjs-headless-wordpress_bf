@@ -16,6 +16,7 @@ export default function Layout({ children, data }) {
   return (
     <div>
       <Seo seo={page?.seo} uri={page?.uri} />
+
       <Head>
         <link rel="shortcut icon" href={header.favicon} />
         {page?.seo?.schemaDetails && (

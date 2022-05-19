@@ -7,11 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "svg": "svgr -d components/icons components/icons/svgs"
+    "svg": "svgr -d components/icons components/icons/svgs",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "dependencies": {
     "@apollo/client": "^3.6.4",
     "@svgr/cli": "^6.2.1",
+    "cypress": "^9.6.1",
     "dompurify": "^2.3.8",
     "graphql": "^16.5.0",
     "lodash": "^4.17.21",

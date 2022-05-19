@@ -4,7 +4,7 @@ import { GET_PAGES_URI } from "src/queries/pages/get-pages";
 import { GET_PAGE } from "src/queries/pages/get-page";
 import { useRouter } from "next/router";
 import Layout from "../components/layout/Layout";
-import { isCustomPageUri } from "src/utils/slugs";
+import { isCustomPageUri } from "../src/utils/slugs";
 // import { sanitize } from "../src/utils/miscellaneous";
 
 export default function Page({ data }) {
@@ -67,12 +67,12 @@ export async function getStaticPaths() {
   });
 
   const pathsData = [];
-
+  console.log("kushtrim ", data?.pages?.nodes);
   data?.pages?.nodes &&
     data?.pages?.nodes.map((page) => {
       if (!isEmpty(page?.uri) && !isCustomPageUri(page?.uri)) {
         const slugs = page?.uri?.split("/").filter((pageSlug) => pageSlug);
-        console.log(slugs);
+        console.log("this is the ", slugs);
         pathsData.push({ params: { slug: slugs } });
       }
     });
