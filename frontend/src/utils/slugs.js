@@ -44,3 +44,7 @@ export const handleRedirectsAndReturnData = (
 
   return defaultProps;
 };
+
+export const getLoginPreviewRedirectUrl = (postType = "", previewPostId = "") => {
+  return `/login/?postType=${postType || ""}&previewPostId=${previewPostId || ""}`;
+};
